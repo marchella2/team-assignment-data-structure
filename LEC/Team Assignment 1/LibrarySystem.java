@@ -33,6 +33,24 @@ class User {
     public void interactWithSystem() {
         System.out.println(name + " berinteraksi dengan sistem.");
     }
+
+    // Mencari buku berdasarkan judul - dapat digunakan oleh Admin dan Member
+    public void searchBook(Book[] books, int count, String title) {
+        System.out.println("\n== " + name + " mencari buku \"" + title + "\" ==");
+        boolean found = false;
+        
+        for (int i = 0; i < count; i++) {
+            if (books[i].title.toLowerCase().contains(title.toLowerCase())) {
+                books[i].displayInfo();
+                found = true;
+            }
+        }
+        
+        if (!found) {
+            System.out.println(name + " tidak menemukan buku dengan judul \"" + title + "\".");
+        }
+        System.out.println();
+    }
 }
 
 // Child Class: Admin
@@ -162,9 +180,14 @@ public class LibrarySystem {
 
         System.out.println("\n== Daftar Buku Setelah Admin Mengelola ==");
         for (int i = 0; i < count; i++) books[i].displayInfo();
+        admin.searchBook(books, count, "Data");
 
         // Aksi member
         Member member = (Member) users[1];
+
+        System.out.println("\n=== Member melakukan pencarian ===");
+        member.searchBook(books, count, "Java");
+
         member.borrowBook(books, count, "Pemrograman Java");
         member.returnBook(books, count, "Pemrograman Java");
 
